@@ -1,0 +1,28 @@
+---
+title: "Project 1 - eBird Data"
+author: "Riley McDonnell and Savannah Weaver"
+date: "2/7/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Get Data
+This data is of citizen science observations of the Black Capped Chickadee (*Poecile atricapillus*) and Northern Cardinal (*Cardinalis cardinalis*). This and other similar datasets can be requested online (eBird Basic Dataset. Version: EBD_relDec-2019. Cornell Lab of Ornithology, Ithaca, New York. Dec 2019.). 
+*Note that the dataset is very large so we only read in the first 1000 rows otherwise it would take way too long to load in.*
+
+```{r}
+# read in whole dataset
+#bcc<- read.delim("./ebd_black_capped_chickadee/bcc_data.txt", header = TRUE, sep = "\t", dec = ".", nrows=1000)
+#nc<- read.delim("./ebd_northern_cardinal/nc_data.txt", header = TRUE, sep = "\t", dec = ".", nrows=1000)
+
+# put into one dataframe
+#together<- rbind(bcc,nc)
+
+# write to new csv to make faster in future
+#write.csv(together, file = "eBird_data.csv")
+eBird.df<- read.csv("eBird_data.csv")
+```
+
