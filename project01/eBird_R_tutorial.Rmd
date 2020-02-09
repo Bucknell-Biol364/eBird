@@ -9,20 +9,172 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Get Data
-This data is of citizen science observations of the Black Capped Chickadee (*Poecile atricapillus*) and Northern Cardinal (*Cardinalis cardinalis*). This and other similar datasets can be requested online (eBird Basic Dataset. Version: EBD_relDec-2019. Cornell Lab of Ornithology, Ithaca, New York. Dec 2019.). 
-*Note that the dataset is very large so we only read in the first 1000 rows otherwise it would take way too long to load in.*
+# Introduction
+
+Welcome to R/Rstudio Ornithology students! R is a computer language that helps scientists (like you!) run statistical tests and create stunning graphs. Rstudio is an interface of R that makes it easier to understand your code and see its outputs. 
+
+The bottom-right panel can be used to find files, see the graphs you make, and get help on code functions. The top-right panel is where you can view any saved variables. THIS panel in the top-left is where we will be reading, writing, and running code. The bottom-left panel below more or less prints what we do in this panel, so you can ignore it for now.
+
+This file is an Rmd file, which lets us put plain text and code side-by-side. We won't discuss Rmd formatting for now... the important parts are the code chunks, which look like this:
 
 ```{r}
-# read in whole dataset
+# code
+print("Code!")
+```
+
+The top and bottom lines tell R that's the beginning and end of the code chunk. The middle is where we will be coding soon! Right now we just have two example lines of code. The first line starts with a #, which means it's a comment. This will not do anything, but is helpful to keep track of what code does line-by-line. If we were using an R-script file rather than Rmd, any non-code text would have to be "commented-out." The next line simply tells R to print a string of characters that we tell it to. Click the green "play" button at the top-right corner of he code to chunk to run this code.
+
+Not to scary, right?! You can see the output of your code right below the code chunk. This is how we will run and see the output of our coding for the rest of the tutorial.
+
+Don't worry if this is overwhelming right now! Slowly through this tutorial you will come to understand each of these panels and the code you can put together to analyze and visualize your data! And of course, don't be afraid to ask your instructor for help and/or clarification.
+
+Happy Coding!
+
+# Our Data
+
+In Ornithology, you've been using eBird to submit your sightings. But where does that data go? Scienists and non-scientists alike can get access to it to analyze trends, and many scientific papers have been published using eBird data. It can be requested online (eBird Basic Dataset. Version: EBD_relDec-2019. Cornell Lab of Ornithology, Ithaca, New York. Dec 2019.). 
+
+For our tutorial, we will use eBird's citizen science observations of the Black Capped Chickadee (*Poecile atricapillus*) and Northern Cardinal (*Cardinalis cardinalis*). *Note that each of these datasets are very large, so we only read in the first 1000 rows of each, then saved them both together as a new csv for use in this tutorial. Otherwise, it would take way too long to load in.*
+
+We don't want to run this first code chunk, so it is all commented-out, but please read it to understand how we read in and subsetted the data. We also recommend commenting your code like this so it's clear to you and other people what everything does!
+
+```{r}
+# the eBird data comes as txt files, which can be handled by read.delim() function
+# read.delim() lets us tell R things about the data
+# we say that there is a header row, and that it's tab-delimited ("/t")
+# we only read in 1000 rows for each dataset
+
+# read in whole dataset for the black-capped chickadee
+# save read-in data as a dataframe called bcc
 #bcc<- read.delim("./ebd_black_capped_chickadee/bcc_data.txt", header = TRUE, sep = "\t", dec = ".", nrows=1000)
+
+# read in the whole dataset for the northern cardinal
+# save read-in data as a dataframe called nc
 #nc<- read.delim("./ebd_northern_cardinal/nc_data.txt", header = TRUE, sep = "\t", dec = ".", nrows=1000)
 
 # put into one dataframe
+# rbind() stands for row-bind, which attaches the two dataframes we made
+# it stacks them so the columns are the same 
+# and all of the rows of both are combined
 #together<- rbind(bcc,nc)
 
-# write to new csv to make faster in future
+# save to new csv file to make faster in future
+# we use write.csv() to export the combined dataframe we made
 #write.csv(together, file = "eBird_data.csv")
+# now it can be sent and used in any file
+```
+
+This next code chunk reads in the smaller csv file we made for this tutorial. You should have copied that csv file from where you got this tutorial and put both in the same folder so R can find it. Run the code chunk (click the play button!) and see what happens.
+
+```{r}
 eBird.df<- read.csv("eBird_data.csv")
 ```
+
+This code chunk has no output, but if you click on the "Environment" tab in the top-right panel, you see the dataframe listed under "Data." Click on it to see it in a new tab in this panel. 
+
+You can scroll up-down and left-right to see all the data we have to use. You can also click the arrows on the header row to sort the dataframe by any column to see what's there. This kind of exploration can also be done using R functions...
+
+
+```{r}
+head(eBird.df)
+tail(eBird.df)
+summary(eBird.df)
+unique(eBird.df$SCIENTIFIC.NAME)
+table(eBird.df$SCIENTIFIC.NAME)
+```
+
+we need stuff to do stuff
+
+```{r}
+if (!require("UsingR")) install.packages("UsingR"); library(UsingR)
+if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse)
+if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
+if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
+if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
+```
+
+
+fix some things
+
+```{r}
+eBird.df <- eBird.df %>%
+  filter(OBSERVATION.COUNT!="X") %>%
+  mutate(bird.count = as.numeric(OBSERVATION.COUNT)) %>%
+  mutate(birder.count = as.numeric(NUMBER.OBSERVERS))
+```
+
+
+# Question 1
+
+First we will show you functions to use to investigate and compare trends for the Black-capped Chickadee and Northern Cardinal. Are they usually spotted in a group or alone? Where does each of these species have the most observations?
+
+will probably want to split up this code chunk and have expanation paragraphs between
+```{r}
+chickadee.only<- eBird.df %>%
+  filter(SCIENTIFIC.NAME=="Poecile atricapillus")
+
+ggplot(chickadee.only) + #data
+  aes(bird.count) + # data
+  geom_histogram(color="black", fill="white", binwidth=5) + 
+  theme_cowplot() + # pretty layout
+  ylab("Number of Observations") + xlab("Chickadee Count") # axis title
+
+cardinal.only<- eBird.df %>%
+  filter(SCIENTIFIC.NAME=="Cardinalis cardinalis")
+
+ggplot(cardinal.only) + #data
+  aes(bird.count) + # data
+  geom_histogram(color="black", fill="white", binwidth=5) + 
+  theme_cowplot() + # pretty layout
+  ylab("Number in a Group") + xlab("Cardinal Count") # axis titles
+
+
+
+```
+
+
+```{r}
+ggplot(eBird.df) + #data
+  aes(SCIENTIFIC.NAME, bird.count, fill = SCIENTIFIC.NAME) + # data
+  geom_boxplot() + theme_cowplot() + # boxes and pretty layout
+  ylab("Number of Observations") + xlab("Species") # axis titles
+
+
+simple.eda(cardinal.only$bird.count)
+shapiro.test(cardinal.only$bird.count)
+simple.eda(chickadee.only$bird.count)
+shapiro.test(chickadee.only$bird.count)
+
+# because not normally distributed
+wilcox.test(cardinal.only$bird.count, chickadee.only$bird.count)
+```
+
+
+if you could figure out  how to sort and only graph the first 10 or so that would be awesome
+```{r}
+cardinal.locations <- cardinal.only %>%
+  filter(COUNTRY=="United States") %>%
+  group_by(STATE) %>%
+  summarise(num_observations= length(bird.count))
+chickadee.locations <- chickadee.only %>%
+  filter(COUNTRY=="United States") %>%
+  group_by(STATE) %>%
+  summarise(num_observations= length(bird.count))
+
+nrow(chickadee.locations) #24
+nrow(cardinal.locations) #38
+# cardinals seen in more states in the US than chickadees
+
+ggplot(locations) + #data
+  aes(STATE, num_observations) + # data
+  geom_col() + theme_cowplot() + # boxes and pretty layout
+  ylab("Number of Observations") + xlab("State")
+```
+
+
+
+
+# Question 2
+
+Now you can use the same funtions to investigate birders. Are birders usually alone or in a group? Where are there more groups of birders?
 
