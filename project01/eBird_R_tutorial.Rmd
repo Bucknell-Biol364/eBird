@@ -94,7 +94,7 @@ if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
 if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
 ```
 
-fix some things
+fix some things ???
 
 ```{r}
 eBird.df <- eBird.df %>%
@@ -103,22 +103,24 @@ eBird.df <- eBird.df %>%
   mutate(birder.count = as.numeric(NUMBER.OBSERVERS))
 ```
 
-
 # Question 1
 
 First we will show you functions to use to investigate and compare trends for the Black-capped Chickadee and Northern Cardinal. Are they usually spotted in a group or alone? Where does each of these species have the most observations?
 
-will probably want to split up this code chunk and have expanation paragraphs between
 ```{r}
 chickadee.only<- eBird.df %>%
   filter(SCIENTIFIC.NAME=="Poecile atricapillus")
 
 ggplot(chickadee.only) + #data
   aes(bird.count) + # data
-  geom_histogram(color="black", fill="white", binwidth=5) + 
+  geom_histogram(color="black", fill="white", binwidth=5) + # color of the bins, as well as bin size
   theme_cowplot() + # pretty layout
   ylab("Number of Observations") + xlab("Chickadee Count") # axis title
+```
 
+
+
+```{r}
 cardinal.only<- eBird.df %>%
   filter(SCIENTIFIC.NAME=="Cardinalis cardinalis")
 
@@ -127,8 +129,6 @@ ggplot(cardinal.only) + #data
   geom_histogram(color="black", fill="white", binwidth=5) + 
   theme_cowplot() + # pretty layout
   ylab("Number in a Group") + xlab("Cardinal Count") # axis titles
-
-
 
 ```
 
