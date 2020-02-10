@@ -24,7 +24,7 @@ print("Code!")
 
 The top and bottom lines tell R that's the beginning and end of the code chunk. The middle is where we will be coding soon! Right now we just have two example lines of code. The first line starts with a #, which means it's a comment. This will not do anything, but is helpful to keep track of what code does line-by-line. If we were using an R-script file rather than Rmd, any non-code text would have to be "commented-out." The next line simply tells R to print a string of characters that we tell it to. Click the green "play" button at the top-right corner of he code to chunk to run this code.
 
-Not to scary, right?! You can see the output of your code right below the code chunk. This is how we will run and see the output of our coding for the rest of the tutorial.
+Not too scary, right?! You can see the output of your code right below the code chunk. This is how we will run and see the output of our coding for the rest of the tutorial.
 
 Don't worry if this is overwhelming right now! Slowly through this tutorial you will come to understand each of these panels and the code you can put together to analyze and visualize your data! And of course, don't be afraid to ask your instructor for help and/or clarification.
 
@@ -82,8 +82,9 @@ summary(eBird.df)
 unique(eBird.df$SCIENTIFIC.NAME)
 table(eBird.df$SCIENTIFIC.NAME)
 ```
+After reading in the data, we have to understand how the variables are categorized to be able to manipulate it in later code chunks. The command “head() and tail()” allow us to tell r where to start and where to end looking for the data. In this case we want the whole data set so we enter the file name into both lines. Then we use “summary()”, which gives us the 5 number summary of each numerical variable within the data set, as well as total count for categorical variables. From the data set, we have used the functions “unique() and table()” to specify what specific variable we want to look at as well as a table counting the number of birds from each species. 
 
-we need stuff to do stuff
+These lines of code are very important to further understanding the data as this explains how each variable was sorted. In further sections we will be explaining how to apply statistical analysis to some of these variables, so knowing if a variable is numerical or categorical because very important later. 
 
 ```{r}
 if (!require("UsingR")) install.packages("UsingR"); library(UsingR)
@@ -92,7 +93,6 @@ if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
 if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
 if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
 ```
-
 
 fix some things
 
