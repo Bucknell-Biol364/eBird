@@ -118,7 +118,7 @@ ggplot(chickadee.only) + #data
   ylab("Number of Observations") + xlab("Chickadee Count") # axis title
 ```
 
-
+First we will look at the Black-capped Chickadee count and number of observations. To compare these we must create a plot, or histogram, using the package ggplot. The package “ggplot()” allows us to make all kinds of different graphs based on the kind of data we have. Here we have used a pipeline to sort the data for only Chickadees. In the line “geom_histogram()” we tell the package to generate a histogram specifically and give it details like the bar color and bin size. We can also change the axis titles from their default names by using “ylab()” and “xlab()” which rename the axis to whatever you put within the quotations.
 
 ```{r}
 cardinal.only<- eBird.df %>%
@@ -131,20 +131,23 @@ ggplot(cardinal.only) + #data
   ylab("Number in a Group") + xlab("Cardinal Count") # axis titles
 
 ```
-
+In this histogram we are looking at the same to variables except with Cardinals instead of Chickadees. No code was changed, but the results are pretty similar between the two species. 
 
 ```{r}
 ggplot(eBird.df) + #data
   aes(SCIENTIFIC.NAME, bird.count, fill = SCIENTIFIC.NAME) + # data
   geom_boxplot() + theme_cowplot() + # boxes and pretty layout
   ylab("Number of Observations") + xlab("Species") # axis titles
-
-
+```
+Here we have generated a box plot comparing the two species and the number of observations for each. As the box plot depicts, the results are very similar for both birds. The median appears to be in the same place for both birds and the range is also almost overlapping. 
+```{r}
 simple.eda(cardinal.only$bird.count)
 shapiro.test(cardinal.only$bird.count)
 simple.eda(chickadee.only$bird.count)
 shapiro.test(chickadee.only$bird.count)
+```
 
+```{r}
 # because not normally distributed
 wilcox.test(cardinal.only$bird.count, chickadee.only$bird.count)
 ```
