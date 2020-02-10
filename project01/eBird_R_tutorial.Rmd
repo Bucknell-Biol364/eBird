@@ -158,20 +158,33 @@ if you could figure out  how to sort and only graph the first 10 or so that woul
 cardinal.locations <- cardinal.only %>%
   filter(COUNTRY=="United States") %>%
   group_by(STATE) %>%
-  summarise(num_observations= length(bird.count))
+  summarise(num_observations= length(bird.count)) %>% 
+  arrange(desc(num_observations))  %>%
+  dplyr::filter(num_observations > 35)
+
 chickadee.locations <- chickadee.only %>%
   filter(COUNTRY=="United States") %>%
   group_by(STATE) %>%
-  summarise(num_observations= length(bird.count))
+  summarise(num_observations= length(bird.count)) %>%
+  arrange(desc(num_observations))  %>%
+  dplyr::filter(num_observations > 22)
+  
 
 nrow(chickadee.locations) #24
 nrow(cardinal.locations) #38
 # cardinals seen in more states in the US than chickadees
 
-ggplot(locations) + #data
+ggplot(cardinal.locations) + #data
   aes(STATE, num_observations) + # data
   geom_col() + theme_cowplot() + # boxes and pretty layout
   ylab("Number of Observations") + xlab("State")
+
+ggplot(chickadee.locations) + #data
+  aes(STATE, num_observations) + # data
+  geom_col() + theme_cowplot() + # boxes and pretty layout
+  ylab("Number of Observations") + xlab("State")
+
+
 ```
 
 
