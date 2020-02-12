@@ -93,8 +93,7 @@ if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
 if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
 if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
 ```
-
-fix some things ???
+Now we are going to change the variables we will be working with to better fit our data, by changing the names it will become easier to work with in later code chunks. We mutate the data to have observation count become bird count and number of observers becomes birder count. We use a pipeline in this case to make our code easier and more straight forward.
 
 ```{r}
 eBird.df <- eBird.df %>%
@@ -146,14 +145,19 @@ shapiro.test(cardinal.only$bird.count)
 simple.eda(chickadee.only$bird.count)
 shapiro.test(chickadee.only$bird.count)
 ```
+Before we run any statistical tests, we must check to see if the data is distributed normally for the bird counts for both species. To do this we will run a Shapiro test and an exploratory data analysis test to see the data’s distribution. After running these tests we can see that data is in fact not normally distributed.
+
+Since the data is not normally distributed we will conduct a Wilcoxon rank sum test which is a nonparametric test of the null hypothesis that it is equally likely that a randomly selected value from one population will be less than or greater than a randomly selected value from a second population.
 
 ```{r}
 # because not normally distributed
 wilcox.test(cardinal.only$bird.count, chickadee.only$bird.count)
 ```
+* WHAT do these results mean?*
 
 
-if you could figure out  how to sort and only graph the first 10 or so that would be awesome
+Now we will make figures to represent the top 5 states for each bird’s bird count, but before we can do that we must sort the data to see what states had the most observations for each bird. To do this we will use the package “dplyr” which allows us to filter and sort the data easily. We also are filtering the data for bird count by state so then we can compare each state respectively. The code is repeated for each bird species so copying and pasting helps us out especially in this section.
+
 ```{r}
 cardinal.locations <- cardinal.only %>%
   filter(COUNTRY=="United States") %>%
@@ -168,29 +172,33 @@ chickadee.locations <- chickadee.only %>%
   summarise(num_observations= length(bird.count)) %>%
   arrange(desc(num_observations))  %>%
   dplyr::filter(num_observations > 22)
-  
 
 nrow(chickadee.locations) #24
 nrow(cardinal.locations) #38
 # cardinals seen in more states in the US than chickadees
+```  
+
+Now we will make our bar charts for the top 5 states with the highest bird counts. To do this we use “ggplot” which makes nice graphs that are simple to code for. The first line refers to the package and the data. Then we set up what we are comparing, so here we have state and number of observations. Next we tell it that we are going to make a bar chart with “geom_col()” and use the theme “cowplot” which is another package to assist in figure making. And finally we are specifying the x and y axis labels.
+
+```{r}
 
 ggplot(cardinal.locations) + #data
   aes(STATE, num_observations) + # data
   geom_col() + theme_cowplot() + # boxes and pretty layout
-  ylab("Number of Observations") + xlab("State")
+  ylab("Number of Observations for Cardinals") + xlab("State")
 
 ggplot(chickadee.locations) + #data
   aes(STATE, num_observations) + # data
   geom_col() + theme_cowplot() + # boxes and pretty layout
-  ylab("Number of Observations") + xlab("State")
+  ylab("Number of Observations for Chickadees") + xlab("State")
 
 
 ```
 
-
-
-
 # Question 2
 
 Now you can use the same funtions to investigate birders. Are birders usually alone or in a group? Where are there more groups of birders?
+
+# Tips for getting unstuck
+
 
