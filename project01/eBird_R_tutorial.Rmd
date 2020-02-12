@@ -199,17 +199,11 @@ Since they are not normally distributed, we cannot use a t-test to investigate w
 # statistical test for non-normal data
 wilcox.test(Pa$bird.count,Cc$bird.count)
 ```
-* WHAT do these results mean?*
-
-
-<<<<<<< HEAD
-Now we will make figures to represent the top 5 states for each bird’s bird count, but before we can do that we must sort the data to see what states had the most observations for each bird. To do this we will use the package “dplyr” which allows us to filter and sort the data easily. We also are filtering the data for bird count by state so then we can compare each state respectively. The code is repeated for each bird species so copying and pasting helps us out especially in this section.
-=======
 The p-value is 0.08035, which is above the conventional cut-off of <0.05 to be significant, so we shall conclude that there is no significant difference in the size of the group of birds between these two species, for observations submitted to eBird.
 
 While we could not conclude anything about differences in grouping behavior, we could also investigate the best locations to observe each of these species.
->>>>>>> d1fb72f54a65f76880d2a7f0a0fda95b29f912c5
 
+Now we will make figures to represent the top 5 states for each bird’s bird count, but before we can do that we must sort the data to see what states had the most observations for each bird. To do this we will use the package “dplyr” which allows us to filter and sort the data easily. We also are filtering the data for bird count by state so then we can compare each state respectively. The code is repeated for each bird species so copying and pasting helps us out especially in this section.
 ```{r}
 cardinal.locations <- cardinal.only %>%
   filter(COUNTRY=="United States") %>%
@@ -253,4 +247,5 @@ Now you can use the same funtions to investigate birders. Are birders usually al
 
 # Tips for getting unstuck
 
+Sometimes R can be very tricky to work if you’re new to it, but there are many resources available. Google is a great place to start, just by typing in “how to I get ____ in R?” often will get moving in the right direction. There are many great resources besides Google like on RStudio’s website there are plenty of cheat sheets to reference. Each cheat sheet corresponds with a package so you can learn all about the important commands within that package. Also never try to code from scratch, use what you already coded and what others have also coded. Re-writing code takes a lot of time and effort, but if you take previously written code and fit it to your data, your life will be much easier. Happy coding!
 
