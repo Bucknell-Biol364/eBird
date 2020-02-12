@@ -6,12 +6,22 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
+# initialize the document
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, include=FALSE}
+# download the necessary packages for analyses
+if (!require("UsingR")) install.packages("UsingR"); library(UsingR)
+if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse)
+if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
+if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
+if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
 ```
 
 # Introduction
 
-Welcome to R/Rstudio Ornithology students! R is a computer language that helps scientists (like you!) run statistical tests and create stunning graphs. Rstudio is an interface of R that makes it easier to understand your code and see its outputs. 
+Welcome to R/Rstudio, Ornithology students! R is a computer language that helps scientists (like you!) run statistical tests and create stunning graphs. Rstudio is an interface of R that makes it easier to understand your code and see its outputs. 
 
 The bottom-right panel can be used to find files, see the graphs you make, and get help on code functions. The top-right panel is where you can view any saved variables. THIS panel in the top-left is where we will be reading, writing, and running code. The bottom-left panel below more or less prints what we do in this panel, so you can ignore it for now.
 
@@ -22,7 +32,7 @@ This file is an Rmd file, which lets us put plain text and code side-by-side. We
 print("Code!")
 ```
 
-The top and bottom lines tell R that's the beginning and end of the code chunk. The middle is where we will be coding soon! Right now we just have two example lines of code. The first line starts with a #, which means it's a comment. This will not do anything, but is helpful to keep track of what code does line-by-line. If we were using an R-script file rather than Rmd, any non-code text would have to be "commented-out." The next line simply tells R to print a string of characters that we tell it to. Click the green "play" button at the top-right corner of he code to chunk to run this code.
+The top and bottom lines tell R that's the beginning and end of the code chunk. The middle is where we will be coding soon! Right now we just have two example lines of code. The first line starts with a #, which means it's a comment. This will not do anything, but is helpful to keep track of what code does line-by-line. If we were using an R-script file rather than Rmd, any non-code text would have to be "commented-out." The next line simply tells R to print a string of characters that we tell it to. Click the green "play" button at the top-right corner of the code to chunk to run this code.
 
 Not too scary, right?! You can see the output of your code right below the code chunk. This is how we will run and see the output of our coding for the rest of the tutorial.
 
@@ -32,11 +42,11 @@ Happy Coding!
 
 # Our Data
 
-In Ornithology, you've been using eBird to submit your sightings. But where does that data go? Scienists and non-scientists alike can get access to it to analyze trends, and many scientific papers have been published using eBird data. It can be requested online (eBird Basic Dataset. Version: EBD_relDec-2019. Cornell Lab of Ornithology, Ithaca, New York. Dec 2019.). 
+In Ornithology, you've been using eBird to submit your sightings. But where does that data go? Scienists and non-scientists alike can get access to it to analyze trends, and many scientific papers have been published using eBird data. Anyone can request it online (eBird Basic Dataset. Version: EBD_relDec-2019. Cornell Lab of Ornithology, Ithaca, New York. Dec 2019.). 
 
-For our tutorial, we will use eBird's citizen science observations of the Black Capped Chickadee (*Poecile atricapillus*) and Northern Cardinal (*Cardinalis cardinalis*). *Note that each of these datasets are very large, so we only read in the first 1000 rows of each, then saved them both together as a new csv for use in this tutorial. Otherwise, it would take way too long to load in.*
+For our tutorial, we will use eBird's citizen science observations of the Black-capped Chickadee (*Poecile atricapillus*) and Northern Cardinal (*Cardinalis cardinalis*). *Note that each of these original eBird datasets are very large, so we only read in the first 1000 rows of each, then saved them both together as a new csv for use in this tutorial. Otherwise, it would take way too long to load in.*
 
-We don't want to run this first code chunk, so it is all commented-out, but please read it to understand how we read in and subsetted the data. We also recommend commenting your code like this so it's clear to you and other people what everything does!
+We don't want to run this first code chunk, so it is all commented-out, but please read it to understand how we read-in and subsetted the data. We also recommend commenting your code like this so it's clear to you and other people what everything does!
 
 ```{r}
 # the eBird data comes as txt files, which can be handled by read.delim() function
@@ -45,17 +55,17 @@ We don't want to run this first code chunk, so it is all commented-out, but plea
 # we only read in 1000 rows for each dataset
 
 # read in whole dataset for the black-capped chickadee
-# save read-in data as a dataframe called bcc
+# and save read-in data as a dataframe called bcc
 #bcc<- read.delim("./ebd_black_capped_chickadee/bcc_data.txt", header = TRUE, sep = "\t", dec = ".", nrows=1000)
 
 # read in the whole dataset for the northern cardinal
-# save read-in data as a dataframe called nc
+# and save read-in data as a dataframe called nc
 #nc<- read.delim("./ebd_northern_cardinal/nc_data.txt", header = TRUE, sep = "\t", dec = ".", nrows=1000)
 
 # put into one dataframe
 # rbind() stands for row-bind, which attaches the two dataframes we made
 # it stacks them so the columns are the same 
-# and all of the rows of both are combined
+# and all of the rows of both are kept/added
 #together<- rbind(bcc,nc)
 
 # save to new csv file to make faster in future
@@ -72,18 +82,30 @@ eBird.df<- read.csv("eBird_data.csv")
 
 This code chunk has no output, but if you click on the "Environment" tab in the top-right panel, you see the dataframe listed under "Data." Click on it to see it in a new tab in this panel. 
 
-You can scroll up-down and left-right to see all the data we have to use. You can also click the arrows on the header row to sort the dataframe by any column to see what's there. This kind of exploration can also be done using R functions...
+You can scroll up-down and left-right to see all the data we have available to investigate You can also click the arrows on the header row to sort the dataframe by any column to see what's there. This kind of exploration can also be done using R functions. 
 
-
-```{r}
-head(eBird.df)
-tail(eBird.df)
-summary(eBird.df)
-unique(eBird.df$SCIENTIFIC.NAME)
-table(eBird.df$SCIENTIFIC.NAME)
-```
 After reading in the data, we have to understand how the variables are categorized to be able to manipulate it in later code chunks. The command “head() and tail()” allow us to tell r where to start and where to end looking for the data. In this case we want the whole data set so we enter the file name into both lines. Then we use “summary()”, which gives us the 5 number summary of each numerical variable within the data set, as well as total count for categorical variables. From the data set, we have used the functions “unique() and table()” to specify what specific variable we want to look at as well as a table counting the number of birds from each species. 
 
+Click on each line of code one at a time in the next code chunk, then press command/control + enter/return to run each line separately. 
+
+```{r}
+# view the "top" of the dataframe
+head(eBird.df)
+
+# view the "bottom" of the dataframe
+tail(eBird.df)
+
+# summarize the dataframe
+summary(eBird.df)
+
+# check to make sure we have our two species included in the dataframe and only those two species... 
+unique(eBird.df$SCIENTIFIC.NAME)
+
+# check that the number of observations for each species is as we expect (1000 each)
+table(eBird.df$SCIENTIFIC.NAME)
+```
+
+<<<<<<< HEAD
 These lines of code are very important to further understanding the data as this explains how each variable was sorted. In further sections we will be explaining how to apply statistical analysis to some of these variables, so knowing if a variable is numerical or categorical because very important later. 
 
 ```{r}
@@ -94,6 +116,11 @@ if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
 if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
 ```
 Now we are going to change the variables we will be working with to better fit our data, by changing the names it will become easier to work with in later code chunks. We mutate the data to have observation count become bird count and number of observers becomes birder count. We use a pipeline in this case to make our code easier and more straight forward.
+=======
+These lines of code are very important to understanding the structure of our data. In later sections you'll learn how to apply statistical analyses to some of these variables, so a strong understanding of the underlying structure of the dataset as a whole and each variable itself (i.e. is it numerical or categorical?) becomes very important. 
+
+For example, notice how some numerical variables were read into R as character strings? We can fix that by "cleaning-up" the data. Run the next code chunk to remove non-numeric values and set the variable types to be numerical, then open the newly edited dataset again to see what happened.
+>>>>>>> d1fb72f54a65f76880d2a7f0a0fda95b29f912c5
 
 ```{r}
 eBird.df <- eBird.df %>%
@@ -102,61 +129,86 @@ eBird.df <- eBird.df %>%
   mutate(birder.count = as.numeric(NUMBER.OBSERVERS))
 ```
 
+We used the "pippette" function (%>%) to filter() out observations listed as X (in eBird this means the data was not added). We also "piped" the data through the mutate() function to add new variable columns with the variables we are interested in correctly read as numeric variables. Now we can use the dataset properly!
+
 # Question 1
 
 First we will show you functions to use to investigate and compare trends for the Black-capped Chickadee and Northern Cardinal. Are they usually spotted in a group or alone? Where does each of these species have the most observations?
 
+First we will use histograms to compare how big groups of each bird are when they are observed. To best-visualize these we will create a plot using the package ggplot. The package “ggplot()” allows us to make all kinds of different graphs based on the kind of data we have. 
+
+In the line “geom_histogram()” we tell ggplot to generate a histogram and give it details like the bar color and bin size. We can also change the axis titles from their default names by using “ylab()” and “xlab()” which rename the axis to whatever you put within the quotations. Run the code chunk to see the graph it produces and read the code line-by-line to learn what specifies each part of the graph.
+
 ```{r}
-chickadee.only<- eBird.df %>%
+# make side-by-side histograms to compare 
+ggplot(eBird.df) + # specify dataframe
+  aes(x=bird.count, # continuous data variable
+      fill=SCIENTIFIC.NAME) + # color bars based on species
+  facet_wrap(~SCIENTIFIC.NAME) + # group bars by species
+  geom_histogram(color="black", # add black histogram bars
+                 binwidth=5) + # width of histogram bars
+  theme_cowplot() + # pretty layout
+  ylab("Number of Observations") + # axis title
+  xlab("Number of Birds") + # axis title
+  guides(fill="none") # remove the legend
+```
+
+Using the histogram, we can see that both species have left-skewed and tri-modal distributions of bird counts. We can infer that birds are usually either sighted alone or in large groups... or perhaps there is just a trend in the integers people choose to estimate the number of birds in a group.
+
+Now that we have an understanding of the distribution of the data, let's investigate whether there's a difference between the distributions of the size of Black-capped Chickadee groups versus the size of Northern Cardinal groups. 
+
+Once again we will use ggplot to generate a graph, but we tell it to make a boxplot this time. As you learn and continue to code, the many abilities of ggplot will come to great use to make a variety of visualizations.
+
+```{r}
+# make a boxplot to compare 
+ggplot(eBird.df) + # specify dataframe
+  aes(SCIENTIFIC.NAME, # independent variable
+      bird.count, # dependent variable
+      fill = SCIENTIFIC.NAME) + # color boxes by species
+  geom_boxplot() + # add boxes to the graph
+  theme_cowplot() + # pretty layout
+  ylab("Number of Birds in a Group") + 
+  xlab("Species") + # axis title
+  guides(fill="none") # remove the legend
+```
+
+As the box plot depicts, the boxplots are very similar for both birds. The median appears to be in the same place for both birds and the range is also almost overlapping. 
+
+However, no definitive conclusions can be drawn without statistics.
+
+Our first step when using statistics tests is to check the distribution of the data. While we visualized histograms above, the shapiro.test() gives us the probability that a dataset is normally distributed. Run the next code chunk to check this for each species.
+
+```{r}
+Pa<- eBird.df %>% # pipe into new dataframe only Chickadee
   filter(SCIENTIFIC.NAME=="Poecile atricapillus")
+shapiro.test(Pa$bird.count) # test normality
 
-ggplot(chickadee.only) + #data
-  aes(bird.count) + # data
-  geom_histogram(color="black", fill="white", binwidth=5) + # color of the bins, as well as bin size
-  theme_cowplot() + # pretty layout
-  ylab("Number of Observations") + xlab("Chickadee Count") # axis title
-```
-
-First we will look at the Black-capped Chickadee count and number of observations. To compare these we must create a plot, or histogram, using the package ggplot. The package “ggplot()” allows us to make all kinds of different graphs based on the kind of data we have. Here we have used a pipeline to sort the data for only Chickadees. In the line “geom_histogram()” we tell the package to generate a histogram specifically and give it details like the bar color and bin size. We can also change the axis titles from their default names by using “ylab()” and “xlab()” which rename the axis to whatever you put within the quotations.
-
-```{r}
-cardinal.only<- eBird.df %>%
+Cc<- eBird.df %>% # pipe into new dataframe only Cardinals
   filter(SCIENTIFIC.NAME=="Cardinalis cardinalis")
-
-ggplot(cardinal.only) + #data
-  aes(bird.count) + # data
-  geom_histogram(color="black", fill="white", binwidth=5) + 
-  theme_cowplot() + # pretty layout
-  ylab("Number in a Group") + xlab("Cardinal Count") # axis titles
-
-```
-In this histogram we are looking at the same to variables except with Cardinals instead of Chickadees. No code was changed, but the results are pretty similar between the two species. 
-
-```{r}
-ggplot(eBird.df) + #data
-  aes(SCIENTIFIC.NAME, bird.count, fill = SCIENTIFIC.NAME) + # data
-  geom_boxplot() + theme_cowplot() + # boxes and pretty layout
-  ylab("Number of Observations") + xlab("Species") # axis titles
-```
-Here we have generated a box plot comparing the two species and the number of observations for each. As the box plot depicts, the results are very similar for both birds. The median appears to be in the same place for both birds and the range is also almost overlapping. 
-```{r}
-simple.eda(cardinal.only$bird.count)
-shapiro.test(cardinal.only$bird.count)
-simple.eda(chickadee.only$bird.count)
-shapiro.test(chickadee.only$bird.count)
+shapiro.test(Cc$bird.count) # test normality
 ```
 Before we run any statistical tests, we must check to see if the data is distributed normally for the bird counts for both species. To do this we will run a Shapiro test and an exploratory data analysis test to see the data’s distribution. After running these tests we can see that data is in fact not normally distributed.
 
 Since the data is not normally distributed we will conduct a Wilcoxon rank sum test which is a nonparametric test of the null hypothesis that it is equally likely that a randomly selected value from one population will be less than or greater than a randomly selected value from a second population.
 
+Both Shapiro-Wilk normality tests have significant p-values (<0.05), so the probability is almost zero percent chance likely that these datasets are normally distributed.
+
+Since they are not normally distributed, we cannot use a t-test to investigate whether there is a significant difference in the size of observed groups of birds depending on the species, because a t-test assumes a normal distribution of the data. Instead, we will use the Wilcoxon rank-sum test.
+
 ```{r}
-# because not normally distributed
-wilcox.test(cardinal.only$bird.count, chickadee.only$bird.count)
+# statistical test for non-normal data
+wilcox.test(Pa$bird.count,Cc$bird.count)
 ```
 * WHAT do these results mean?*
 
 
+<<<<<<< HEAD
 Now we will make figures to represent the top 5 states for each bird’s bird count, but before we can do that we must sort the data to see what states had the most observations for each bird. To do this we will use the package “dplyr” which allows us to filter and sort the data easily. We also are filtering the data for bird count by state so then we can compare each state respectively. The code is repeated for each bird species so copying and pasting helps us out especially in this section.
+=======
+The p-value is 0.08035, which is above the conventional cut-off of <0.05 to be significant, so we shall conclude that there is no significant difference in the size of the group of birds between these two species, for observations submitted to eBird.
+
+While we could not conclude anything about differences in grouping behavior, we could also investigate the best locations to observe each of these species.
+>>>>>>> d1fb72f54a65f76880d2a7f0a0fda95b29f912c5
 
 ```{r}
 cardinal.locations <- cardinal.only %>%
