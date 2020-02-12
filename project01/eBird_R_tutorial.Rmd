@@ -264,16 +264,71 @@ I hypothesize...
 First, use the histogram function in the ggplot package to visualize the distribution birder group sizes and compare them between the Cardinal and Chickadee.
 
 ```{r}
-
+ggplot(eBird.df) + 
+  aes() +
+  geom_histogram()
 ```
 
-Next, 
+Next, make a boxplot to more-directly compare the distributions of birder group sizes.
+
+```{r}
+ggplot(eBird.df) + 
+  aes() + 
+  geom_boxplot()
+```
+
+How do these visualizations compare to your hypothesis? You should use statistical tests to determine whether the conclusions you have drawn from these visualizations are significant. 
+
+Before we can run statistics, we need to determine whether the data is normally distributed. This has to be done for each dataset separately, so make sure to use the "Pa" and "Cc" dataframes we created above (named for the species scientific names acronyms).
+
+```{r}
+shapiro.test() # test normality
+shapiro.test() # test normality
+```
+
+Is each dataset normally distributed? A p-value <0.05 means that the data is unlikely to be normally distributed. If p is >0.05, you may conclude that the dataset is normally distributed.
+
+If both datasets are normally distributed, you can use a t-test. If not, you must use the Wilcoxon rank-sum test.
+
+```{r}
+t.test()
+wilcox.test()
+```
+
+Is the difference significant? Does this support or refute your hypothesis?
+
+Next, investigate the geographic trends for birder group size... Where are there more groups of birders? Are the top states for Cardinal and Chickadee birders different? Form a hypothesis to investigate:
+
+I hypothesize...
+
+To investigate this hypothesis, you may need to subset and sort your data into a new dataframe... (and would probably want reuse the code for the first species to copy and tweak for the second species...)
+
+```{r}
+new.dataframe <- eBird.df %>% # name it something informative!!!
+  dplyr::filter() %>% # possible function to use... 
+  dplyr::filter() %>% # possible function to use... 
+  group_by() %>% # possible function to use... 
+  summarise() %>% # possible function to use... 
+  arrange()  %>% # possible function to use... 
+  dplyr::filter() # possible function to use... 
+
+# another new dataframe?
+```
+
+Now that you have a specific, smaller dataframe to interpret, you can use it to make a graph! Do you need a separate graph for each species? Build on the basic code below to visualize the data to answer your question/hypothesis.
+
+```{r}
+ggplot() + # specify dataframe
+  aes() + # variables
+  geom_col() # graph type
+```
+
+Do these graphs support or refute your hypotheses about birder geography?
 
 
+# Conclusions
 
-Where are there more groups of birders?
-
-
+Good job!
 
 
 
@@ -291,4 +346,6 @@ Sometimes R can be very tricky to work if you’re new to it, but there are many
 
 
 
-acknowledgements - rpubs thx dr field
+# Acknowledgements
+- rpubs thx dr field
+links to cheatsheets
