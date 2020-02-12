@@ -84,7 +84,7 @@ This code chunk has no output, but if you click on the "Environment" tab in the 
 
 You can scroll up-down and left-right to see all the data we have available to investigate You can also click the arrows on the header row to sort the dataframe by any column to see what's there. This kind of exploration can also be done using R functions. 
 
-After reading in the data, we have to understand how the variables are categorized to be able to manipulate it in later code chunks. The command “head() and tail()” allow us to tell r where to start and where to end looking for the data. In this case we want the whole data set so we enter the file name into both lines. Then we use “summary()”, which gives us the 5 number summary of each numerical variable within the data set, as well as total count for categorical variables. From the data set, we have used the functions “unique() and table()” to specify what specific variable we want to look at as well as a table counting the number of birds from each species. 
+After reading in the data, we have to understand how the variables are categorized to be able to manipulate it in later code chunks. The commands “head() and tail()” allow us to tell r where to start and where to end looking for the data. In this case we want the whole data set so we enter the file name into both lines. Then we use “summary()”, which gives us the 5 number summary of each numerical variable within the data set, as well as total count for categorical variables. From the data set, we have used the functions “unique() and table()” to specify what specific variable we want to look at as well as a table counting the number of birds from each species. 
 
 Click on each line of code one at a time in the next code chunk, then press command/control + enter/return to run each line separately. 
 
@@ -105,22 +105,9 @@ unique(eBird.df$SCIENTIFIC.NAME)
 table(eBird.df$SCIENTIFIC.NAME)
 ```
 
-<<<<<<< HEAD
-These lines of code are very important to further understanding the data as this explains how each variable was sorted. In further sections we will be explaining how to apply statistical analysis to some of these variables, so knowing if a variable is numerical or categorical because very important later. 
-
-```{r}
-if (!require("UsingR")) install.packages("UsingR"); library(UsingR)
-if (!require("tidyverse")) install.packages("tidyverse"); library(tidyverse)
-if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
-if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
-if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
-```
-Now we are going to change the variables we will be working with to better fit our data, by changing the names it will become easier to work with in later code chunks. We mutate the data to have observation count become bird count and number of observers becomes birder count. We use a pipeline in this case to make our code easier and more straight forward.
-=======
 These lines of code are very important to understanding the structure of our data. In later sections you'll learn how to apply statistical analyses to some of these variables, so a strong understanding of the underlying structure of the dataset as a whole and each variable itself (i.e. is it numerical or categorical?) becomes very important. 
 
 For example, notice how some numerical variables were read into R as character strings? We can fix that by "cleaning-up" the data. Run the next code chunk to remove non-numeric values and set the variable types to be numerical, then open the newly edited dataset again to see what happened.
->>>>>>> d1fb72f54a65f76880d2a7f0a0fda95b29f912c5
 
 ```{r}
 eBird.df <- eBird.df %>%
@@ -135,7 +122,7 @@ We used the "pippette" function (%>%) to filter() out observations listed as X (
 
 First we will show you functions to use to investigate and compare trends for the Black-capped Chickadee and Northern Cardinal. Are they usually spotted in a group or alone? Where does each of these species have the most observations?
 
-First we will use histograms to compare how big groups of each bird are when they are observed. To best-visualize these we will create a plot using the package ggplot. The package “ggplot()” allows us to make all kinds of different graphs based on the kind of data we have. 
+We will use histograms to compare how big groups of each bird are when they are observed. To best-visualize these we will create a plot using the package ggplot. The package “ggplot()” allows us to make all kinds of different graphs based on the kind of data we have. 
 
 In the line “geom_histogram()” we tell ggplot to generate a histogram and give it details like the bar color and bin size. We can also change the axis titles from their default names by using “ylab()” and “xlab()” which rename the axis to whatever you put within the quotations. Run the code chunk to see the graph it produces and read the code line-by-line to learn what specifies each part of the graph.
 
@@ -143,9 +130,9 @@ In the line “geom_histogram()” we tell ggplot to generate a histogram and gi
 # make side-by-side histograms to compare 
 ggplot(eBird.df) + # specify dataframe
   aes(x=bird.count, # continuous data variable
-      fill=SCIENTIFIC.NAME) + # color bars based on species
+      fill=SCIENTIFIC.NAME) + # color by species
   facet_wrap(~SCIENTIFIC.NAME) + # group bars by species
-  geom_histogram(color="black", # add black histogram bars
+  geom_histogram(color="black", # black histogram bars
                  binwidth=5) + # width of histogram bars
   theme_cowplot() + # pretty layout
   ylab("Number of Observations") + # axis title
@@ -172,24 +159,21 @@ ggplot(eBird.df) + # specify dataframe
   guides(fill="none") # remove the legend
 ```
 
-As the box plot depicts, the boxplots are very similar for both birds. The median appears to be in the same place for both birds and the range is also almost overlapping. 
+As we can see, the boxplots are very similar for both birds. The median and range both look almost the same. 
 
 However, no definitive conclusions can be drawn without statistics.
 
-Our first step when using statistics tests is to check the distribution of the data. While we visualized histograms above, the shapiro.test() gives us the probability that a dataset is normally distributed. Run the next code chunk to check this for each species.
+Our first step when using statistics tests is to check the distribution of the data. While we've already visualized the distribution using the histograms and boxplots above, the shapiro.test() gives us the probability that a dataset is normally distributed. Run the next code chunk to check this for each species.
 
 ```{r}
-Pa<- eBird.df %>% # pipe into new dataframe only Chickadee
+Pa<- eBird.df %>% # pipe Chickadee into new dataframe 
   filter(SCIENTIFIC.NAME=="Poecile atricapillus")
 shapiro.test(Pa$bird.count) # test normality
 
-Cc<- eBird.df %>% # pipe into new dataframe only Cardinals
+Cc<- eBird.df %>% # pipe Cardinal into new dataframe
   filter(SCIENTIFIC.NAME=="Cardinalis cardinalis")
 shapiro.test(Cc$bird.count) # test normality
 ```
-Before we run any statistical tests, we must check to see if the data is distributed normally for the bird counts for both species. To do this we will run a Shapiro test and an exploratory data analysis test to see the data’s distribution. After running these tests we can see that data is in fact not normally distributed.
-
-Since the data is not normally distributed we will conduct a Wilcoxon rank sum test which is a nonparametric test of the null hypothesis that it is equally likely that a randomly selected value from one population will be less than or greater than a randomly selected value from a second population.
 
 Both Shapiro-Wilk normality tests have significant p-values (<0.05), so the probability is almost zero percent chance likely that these datasets are normally distributed.
 
@@ -199,39 +183,53 @@ Since they are not normally distributed, we cannot use a t-test to investigate w
 # statistical test for non-normal data
 wilcox.test(Pa$bird.count,Cc$bird.count)
 ```
-The p-value is 0.08035, which is above the conventional cut-off of <0.05 to be significant, so we shall conclude that there is no significant difference in the size of the group of birds between these two species, for observations submitted to eBird.
 
-While we could not conclude anything about differences in grouping behavior, we could also investigate the best locations to observe each of these species.
+The p-value is 0.08035, which is above the conventional cut-off of <0.05 to be significant, so we shall conclude that there is no significant difference in the size of the group of birds between these two species, at least not for the observations submitted to eBird that we analyzed.
 
-Now we will make figures to represent the top 5 states for each bird’s bird count, but before we can do that we must sort the data to see what states had the most observations for each bird. To do this we will use the package “dplyr” which allows us to filter and sort the data easily. We also are filtering the data for bird count by state so then we can compare each state respectively. The code is repeated for each bird species so copying and pasting helps us out especially in this section.
+We couldn't conclude anything about differences in grouping behavior, but we could also try to investigate the best locations to observe each of these species.
+
+What states in the US have the most eBird records for these birds? To find out, we need to sort the data. The package “dplyr” allows us to filter and sort the data easily. Using the piping method, we filter for only cardinals, and only records in the US. We group the data by state, and for each state, we count the number of observations that have been submitted. We use arrange() to sort the number of observations per state in descending order, then we filter so that the final dataset only includes states with more than 35 submissions. We do this separately for each species, except that we allow for lower observations in states we select for the Black-capped Chickadee than for the Cardinal.
+
+Notice how most of the code can essentially be copied and pasted, then edited to take in whatever data you're using. Keep this in mind going forward.
+
 ```{r}
-cardinal.locations <- cardinal.only %>%
-  filter(COUNTRY=="United States") %>%
+cardinal.locations <- eBird.df %>%
+  dplyr::filter(SCIENTIFIC.NAME==
+                  "Cardinalis cardinalis") %>%
+  dplyr::filter(COUNTRY==
+                  "United States") %>%
   group_by(STATE) %>%
-  summarise(num_observations= length(bird.count)) %>% 
+  summarise(num_observations= 
+              length(bird.count)) %>% 
   arrange(desc(num_observations))  %>%
   dplyr::filter(num_observations > 35)
 
-chickadee.locations <- chickadee.only %>%
-  filter(COUNTRY=="United States") %>%
+chickadee.locations <- eBird.df %>%
+  dplyr::filter(SCIENTIFIC.NAME==
+                  "Poecile atricapillus") %>%
+  dplyr::filter(COUNTRY==
+                  "United States") %>%
   group_by(STATE) %>%
-  summarise(num_observations= length(bird.count)) %>%
+  summarise(num_observations= 
+              length(bird.count)) %>% 
   arrange(desc(num_observations))  %>%
   dplyr::filter(num_observations > 22)
-
-nrow(chickadee.locations) #24
-nrow(cardinal.locations) #38
-# cardinals seen in more states in the US than chickadees
 ```  
 
-Now we will make our bar charts for the top 5 states with the highest bird counts. To do this we use “ggplot” which makes nice graphs that are simple to code for. The first line refers to the package and the data. Then we set up what we are comparing, so here we have state and number of observations. Next we tell it that we are going to make a bar chart with “geom_col()” and use the theme “cowplot” which is another package to assist in figure making. And finally we are specifying the x and y axis labels.
+Now that the data is sorted, we can make bar charts for the states with the top 5 highest number of bird observations for each of these species.
+
+Once again we are going to use ggplot, but this time we use the geom_col() function to tell it to make bar graphs. The first line refers to the ggplot package and the dataframe we are using. The aes() function takes in the x and y variables, in this case state and number of observations. Read the code comments to be sure what each piece adds to the graph.
 
 ```{r}
-
-ggplot(cardinal.locations) + #data
-  aes(STATE, num_observations) + # data
-  geom_col() + theme_cowplot() + # boxes and pretty layout
-  ylab("Number of Observations for Cardinals") + xlab("State")
+# make a graph to see the top birding locations for the Northern Cardinal
+ggplot(cardinal.locations) + # specify dataframe
+  aes(STATE, # independent variable
+      num_observations, 
+      fill= STATE) + # dependent variable
+  geom_col() + # specify what kind of graph
+  theme_cowplot() + # pretty layout
+  ylab("Number of Observations for Cardinals") + # axis label
+  xlab("State") # axis label
 
 ggplot(chickadee.locations) + #data
   aes(STATE, num_observations) + # data
@@ -240,6 +238,8 @@ ggplot(chickadee.locations) + #data
 
 
 ```
+
+I want to figure out how to put in order of greatest to lowest...
 
 # Question 2
 
