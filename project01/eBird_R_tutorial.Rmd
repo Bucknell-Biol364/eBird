@@ -330,12 +330,7 @@ Do these graphs support or refute your hypotheses about birder geography?
 
 Good job!
 
-
-
-
-
-
-
+After completing this tutorial we hope you learned some new things about working with RStudio and about how statistics can help us explore datasets. RStudio is becoming more and more integral to the field of biology, so following this tutorial will give you a basic understanding of how RStudio functions. 
 
 
 
@@ -348,4 +343,4 @@ Sometimes R can be very tricky to work if you’re new to it, but there are many
 
 # Acknowledgements
 - rpubs thx dr field
-links to cheatsheets
+https://rstudio.com/resources/cheatsheets/
