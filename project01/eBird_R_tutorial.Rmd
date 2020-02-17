@@ -1,7 +1,7 @@
 ---
 title: "Project 1 - eBird Data"
 author: "Riley McDonnell and Savannah Weaver"
-date: "2/7/2020"
+date: "2/17/2020"
 output: github_document
 ---
 
@@ -330,17 +330,17 @@ Do these graphs support or refute your hypotheses about birder geography?
 
 Good job!
 
-After completing this tutorial we hope you learned some new things about working with RStudio and about how statistics can help us explore datasets. RStudio is becoming more and more integral to the field of biology, so following this tutorial will give you a basic understanding of how RStudio functions. 
-
+After completing this tutorial we hope you learned some new things about working with RStudio and about how statistics can help us explore and interpret data. RStudio is becoming more and more integral to the field of biology, so following this tutorial will help you understand how current biologists use R to run statistics and visualize data, and how you may do so in the future! 
 
 
 # Tips for getting unstuck
 
-Sometimes R can be very tricky to work if you’re new to it, but there are many resources available. Google is a great place to start, just by typing in “how to I get ____ in R?” often will get moving in the right direction. There are many great resources besides Google like on RStudio’s website there are plenty of cheat sheets to reference. Each cheat sheet corresponds with a package so you can learn all about the important commands within that package. Also never try to code from scratch, use what you already coded and what others have also coded. Re-writing code takes a lot of time and effort, but if you take previously written code and fit it to your data, your life will be much easier. Happy coding!
-
-
+R can be tricky, especially if you’re new to it, but there are many resources available. Google is a great place to start: try typing in “how to I get ____ in R?” The results will often get you moving in the right direction. TOn RStudio’s website there are also plenty of "cheatsheets" which even seasoned R-users use for reference. Each cheatsheet corresponds with a package so you can learn all about the important commands within that package. You also never need to code from scratch! Re-use code you or others have already written and that works, like you copy and pasted throughout this tutorial, it makes your life so much easier. Happy coding!
 
 
 # Acknowledgements
-- rpubs thx dr field
+We frequently referenced the ggplot2 R cheatsheet, and consulted Dr. Field for guidance when code we had used in lab or homeworks could not be fit to our needs.
+
+
+# Resources
 https://rstudio.com/resources/cheatsheets/
