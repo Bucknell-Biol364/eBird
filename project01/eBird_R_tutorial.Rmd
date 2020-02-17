@@ -123,7 +123,7 @@ We used the "pippette" function (%>%) to filter() out observations listed as X (
 
 First we will show you functions to use to investigate and compare trends for the Black-capped Chickadee and Northern Cardinal. Are they usually spotted in a group or alone? Where does each of these species have the most observations? 
 
-We hypothesize that: both species will be seen more often in groups than alone, and the sizes of those groups will be different based on the species; Cardinals will be seen in eastern states more than western states because that would be consistent with their eBird range; and Chickadees will be seen more in northern states than southern because that would be consistent with their eBird range.
+**We hypothesize that: both species will be seen more often in groups than alone, and the sizes of those groups will be different based on the species; Cardinals will be seen in eastern states more than western states because that would be consistent with their eBird range; and Chickadees will be seen more in northern states than southern because that would be consistent with their eBird range.**
 
 First we will use histograms to compare how big groups of each bird are when they are observed. To best-visualize these we will create a plot using the package ggplot. The package “ggplot()” allows us to make all kinds of different graphs based on the kind of data we have. 
 
@@ -335,7 +335,7 @@ After completing this tutorial we hope you learned some new things about working
 
 # Tips for getting unstuck
 
-R can be tricky, especially if you’re new to it, but there are many resources available. Google is a great place to start: try typing in “how to I get ____ in R?” The results will often get you moving in the right direction. TOn RStudio’s website there are also plenty of "cheatsheets" which even seasoned R-users use for reference. Each cheatsheet corresponds with a package so you can learn all about the important commands within that package. You also never need to code from scratch! Re-use code you or others have already written and that works, like you copy and pasted throughout this tutorial, it makes your life so much easier. Happy coding!
+R can be tricky, especially if you’re new to it, but there are many resources available. Google is a great place to start: try typing in “how to I get ____ in R?” The results will often get you moving in the right direction. On RStudio’s website there are also plenty of "cheatsheets" which even seasoned R-users use for reference. Each cheatsheet corresponds with a package so you can learn all about the important commands within that package. You also never need to code from scratch! Re-use code you or others have already written and that works, like you copy and pasted throughout this tutorial, it makes your life so much easier. Happy coding!
 
 
 # Acknowledgements
