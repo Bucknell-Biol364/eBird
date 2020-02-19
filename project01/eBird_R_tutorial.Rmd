@@ -18,6 +18,7 @@ if (!require("cowplot")) install.packages("cowplot"); library(cowplot)
 if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
 if (!require("dplyr")) install.packages(("dplyr")); library(dplyr)
 if (!require("RColorBrewer")) install.packages(("RColorBrewer")); library(RColorBrewer)
+if (!require("imager")) install.packages("imager"); library(imager)
 ```
 
 # Introduction
@@ -37,13 +38,23 @@ The top and bottom lines tell R that's the beginning and end of the code chunk. 
 
 Not too scary, right?! You can see the output of your code right below the code chunk. This is how we will run and see the output of our coding for the rest of the tutorial.
 
-Don't worry if this is overwhelming right now! Slowly through this tutorial you will come to understand each of these panels and the code you can put together to analyze and visualize your data! And of course, don't be afraid to ask your instructor for help and/or clarification.
+Don't worry if this is overwhelming right now! Slowly through this tutorial you will come to understand each of these panels and the code you can put together to analyze and visualize your data! 
+
+The tutorial follows a read-then-review format: first read our explanation of data exploration, statistics, and visualization, then we give you prompts to do the same thing yourself! 
+
+And of course, don't be afraid to ask your instructor for help and/or clarification.
 
 Happy Coding!
 
 # Our Data
 
-In Ornithology, you've been using eBird to submit your sightings. But where does that data go? Scienists and non-scientists alike can get access to it to analyze trends, and many scientific papers have been published using eBird data. Anyone can request it online (eBird Basic Dataset. Version: EBD_relDec-2019. Cornell Lab of Ornithology, Ithaca, New York. Dec 2019.). 
+In Ornithology, you've been using eBird to submit your sightings. But where does that data go?
+
+This tutorial has two objectives:
+1. Explore eBird data: What happens to the sightings we submit to eBird? How can those be used?
+2. Get comfortable with R: Learn some basic statistics and data visualization in the context of eBird data.
+
+Scienists and non-scientists alike can get access to eBird to analyze trends, and many scientific papers have been published using eBird data. Anyone can request it online (eBird Basic Dataset. Version: EBD_relDec-2019. Cornell Lab of Ornithology, Ithaca, New York. Dec 2019.). 
 
 For our tutorial, we will use eBird's citizen science observations of the Black-capped Chickadee (*Poecile atricapillus*) and Northern Cardinal (*Cardinalis cardinalis*). *Note that each of these original eBird datasets are very large, so we only read in the first 1000 rows of each, then saved them both together as a new csv for use in this tutorial. Otherwise, it would take way too long to load in.*
 
@@ -119,6 +130,17 @@ eBird.df <- eBird.df %>%
 
 We used the "pippette" function (%>%) to filter() out observations listed as X (in eBird this means the data was not added). We also "piped" the data through the mutate() function to add new variable columns with the variables we are interested in correctly read as numeric variables. Now we can use the dataset properly!
 
+Lastly, before we get started, run the next code chunk to see some photos of the Black-capped Chickadee (*Poecile atricapillus*) and Northern Cardinal (*Cardinalis cardinalis*), to help with your own conceptualization throughout the tutorial. Plus, they're so darn cute! (Photos taken from eBird species pages).
+
+```{r}
+bcc.jpg <- load.image("BCC.jpg")
+plot(bcc.jpg)
+
+nc.jpg <- load.image("NC.jpg")
+plot(nc.jpg)
+```
+
+
 # Question 1
 
 First we will show you functions to use to investigate and compare trends for the Black-capped Chickadee and Northern Cardinal. Are they usually spotted in a group or alone? Where does each of these species have the most observations? 
@@ -187,7 +209,7 @@ Since they are not normally distributed, we cannot use a t-test to investigate w
 wilcox.test(Pa$bird.count,Cc$bird.count)
 ```
 
-The p-value is 0.08035, which is above the conventional cut-off of <0.05 to be significant, so we shall conclude that there is no significant difference in the size of the group of birds between these two species, at least not for the observations submitted to eBird that we analyzed.
+The p-value is 0.08035, which is above the conventional cut-off of <0.05 to be significant, so we shall conclude that there is no significant difference in the size of the group of birds between these two species, at least not for the observations submitted to eBird that we analyzed. However, going forward that p-values are not the end-all-be-all, whether or not they are significant, and there are more informative ways to interpret your data than solely based on p-values, but for now, that's beyond the scope of this tutorial. 
 
 We did not find results to support our hypothesis that there are differences in grouping behavior, measured as congregation size, but we could also try to investigate the best locations to observe each of these species.
 
